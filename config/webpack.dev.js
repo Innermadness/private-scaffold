@@ -8,7 +8,7 @@ module.exports = merge(baseWebpackConfig, {
   optimization: {
     minimize: true,
     splitChunks: {
-      chunks: 'all',
-    },
-  },
+      chunks: 'all'
+    }
+  }
 });

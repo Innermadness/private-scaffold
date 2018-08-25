@@ -1,12 +1,12 @@
 module.exports = {
   parser: 'babel-eslint',
   parserOptions: {
-    jsx: true,
+    jsx: true
   },
   extends: [
     'airbnb',
     'plugin:react/recommended',
-    'plugin:jsx-a11y/recommended',
+    'plugin:jsx-a11y/recommended'
   ],
   env: {
     browser: true,
@@ -15,9 +15,10 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'arrow-parens': 'off',
+    'comma-dangle': ['error', 'never'],
     'linebreak-style': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'react/jsx-filename-extension': 'off',
-    'react/jsx-one-expression-per-line': 'off',
-  },
+    'react/jsx-one-expression-per-line': 'off'
+  }
 };

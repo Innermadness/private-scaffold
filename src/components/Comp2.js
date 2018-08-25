@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Test2 from '../utils/Test2';
-
-console.log(Test2);
 
 class Comp2 extends Component {
   componentDidMount() {

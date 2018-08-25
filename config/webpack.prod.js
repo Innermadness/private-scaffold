@@ -10,16 +10,14 @@ module.exports = merge(baseWebpackConfig, {
       new UglifyJsPlugin({
         uglifyOptions: {
           compress: {
-            drop_console: true,
-          },
-        },
-      }),
+            drop_console: true
+          }
+        }
+      })
     ],
+    namedChunks: true,
     splitChunks: {
-      chunks: 'all',
-      name() {
-        return 'test';
-      },
-    },
-  },
+      chunks: 'all'
+    }
+  }
 });

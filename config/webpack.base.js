@@ -12,22 +12,22 @@ const browsersList = [
   '>1%',
   'last 4 versions',
   'Firefox ESR',
-  'not ie < 9',
+  'not ie < 9'
 ];
 
 module.exports = {
   entry: {
-    app: './src/index.js',
+    app: './src/index.js'
   },
   resolve: {
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      '@': SRC_PATH,
+      '@': SRC_PATH
     },
     modules: [
       MODULES_PATH,
-      'node_modules',
-    ],
+      'node_modules'
+    ]
   },
   module: {
     rules: [
@@ -37,12 +37,12 @@ module.exports = {
         use: [
           {
             options: {
-              eslintPath: require.resolve('eslint'),
+              eslintPath: require.resolve('eslint')
             },
-            loader: require.resolve('eslint-loader'),
-          },
+            loader: require.resolve('eslint-loader')
+          }
         ],
-        include: SRC_PATH,
+        include: SRC_PATH
       },
       {
         test: /\.js$/,
@@ -55,14 +55,14 @@ module.exports = {
               'env',
               {
                 targets: {
-                  browsers: browsersList,
+                  browsers: browsersList
                 },
-                modules: false,
-              },
-            ],
+                modules: false
+              }
+            ]
           ],
-          plugins: ['babel-plugin-transform-runtime', 'babel-plugin-syntax-dynamic-import'],
-        },
+          plugins: ['babel-plugin-transform-runtime', 'babel-plugin-syntax-dynamic-import']
+        }
       },
       {
         test: /\.(less|css)$/,
@@ -70,8 +70,8 @@ module.exports = {
           fallback: {
             loader: require.resolve('style-loader'),
             options: {
-              hmr: true,
-            },
+              hmr: true
+            }
           },
           use: [
             {
@@ -80,8 +80,8 @@ module.exports = {
                 importLoaders: 2,
                 camelCase: true,
                 modules: true,
-                localIdentName: '[name]__[local]__[hash:base64:5]',
-              },
+                localIdentName: '[name]__[local]__[hash:base64:5]'
+              }
             },
             {
               loader: require.resolve('postcss-loader'),
@@ -89,16 +89,16 @@ module.exports = {
                 ident: 'postcss',
                 plugins: () => [
                   autoprefixer({
-                    browsers: browsersList,
-                  }),
-                ],
-              },
+                    browsers: browsersList
+                  })
+                ]
+              }
             },
             {
-              loader: require.resolve('less-loader'),
-            },
-          ],
-        }),
+              loader: require.resolve('less-loader')
+            }
+          ]
+        })
       },
       {
         test: /\.(bmp|png|jpe?g|gif)$/,
@@ -109,10 +109,10 @@ module.exports = {
               limit: 10000,
               name: '[name].[hash:6].[ext]',
               outputPath: 'static/images/',
-              publicPath: '../images',
-            },
-          },
-        ],
+              publicPath: '../images'
+            }
+          }
+        ]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -123,25 +123,25 @@ module.exports = {
               limit: 10000,
               name: '[name].[hash:6].[ext]',
               outputPath: 'static/fonts/',
-              publicPath: '../fonts',
-            },
-          },
-        ],
-      },
-    ],
+              publicPath: '../fonts'
+            }
+          }
+        ]
+      }
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './template.html',
+      template: './template.html'
     }),
     new ExtractTextWebpackPlugin({
-      filename: 'static/styles/index.css',
+      filename: 'static/styles/index.css'
     }),
-    new CleanWebpackPlugin(['../dist/*'], { allowExternal: true }),
+    new CleanWebpackPlugin(['../dist/*'], { allowExternal: true })
   ],
   output: {
     filename: 'static/js/bundle.js',
-    path: DIST_PATH,
-  },
+    path: DIST_PATH
+  }
 };
