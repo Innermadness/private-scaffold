@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 
 const DIST_PATH = path.resolve(__dirname, '../dist');
@@ -74,40 +74,35 @@ module.exports = {
       },
       {
         test: /\.(less|css)$/,
-        use: ExtractTextWebpackPlugin.extract({
-          fallback: {
-            loader: require.resolve('style-loader'),
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: require.resolve('css-loader'),
             options: {
-              hmr: true
+              importLoaders: 2,
+              camelCase: true,
+              modules: true,
+              minimize: true,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
             }
           },
-          use: [
-            {
-              loader: require.resolve('css-loader'),
-              options: {
-                importLoaders: 2,
-                camelCase: true,
-                modules: true,
-                minimize: true,
-                localIdentName: '[name]__[local]__[hash:base64:5]'
-              }
-            },
-            {
-              loader: require.resolve('postcss-loader'),
-              options: {
-                ident: 'postcss',
-                plugins: () => [
-                  autoprefixer({
-                    browsers: browsersList
-                  })
-                ]
-              }
-            },
-            {
-              loader: require.resolve('less-loader')
+          {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              ident: 'postcss',
+              plugins: () => [
+                autoprefixer({
+                  browsers: browsersList
+                })
+              ]
             }
-          ]
-        })
+          },
+          {
+            loader: require.resolve('less-loader')
+          }
+        ]
       },
       {
         test: /\.(bmp|png|jpe?g|gif)$/,
@@ -144,7 +139,7 @@ module.exports = {
       filename: 'index.html',
       template: './template.html'
     }),
-    new ExtractTextWebpackPlugin({
+    new MiniCssExtractPlugin({
       filename: 'static/styles/index.css'
     }),
     new CleanWebpackPlugin(['../dist/*'], { allowExternal: true })
