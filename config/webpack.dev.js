@@ -6,9 +6,6 @@ module.exports = merge(baseWebpackConfig, {
   mode: 'development',
   devtool: 'eval-source-map',
   optimization: {
-    minimize: true,
-    splitChunks: {
-      chunks: 'all'
-    }
+    minimize: true
   }
 });

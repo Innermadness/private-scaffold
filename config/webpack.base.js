@@ -20,7 +20,7 @@ module.exports = {
     app: './src/index.js'
   },
   resolve: {
-    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: ['.js', '.jsx'],
     alias: {
       '@': SRC_PATH
     },
@@ -28,6 +28,11 @@ module.exports = {
       MODULES_PATH,
       'node_modules'
     ]
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   module: {
     rules: [
@@ -50,9 +55,9 @@ module.exports = {
         loader: require.resolve('babel-loader'),
         options: {
           presets: [
-            'react',
+            '@babel/preset-react',
             [
-              'env',
+              '@babel/preset-env',
               {
                 targets: {
                   browsers: browsersList
@@ -61,7 +66,10 @@ module.exports = {
               }
             ]
           ],
-          plugins: ['babel-plugin-transform-runtime', 'babel-plugin-syntax-dynamic-import']
+          plugins: [
+            '@babel/plugin-transform-runtime',
+            '@babel/plugin-syntax-dynamic-import'
+          ]
         }
       },
       {
@@ -80,6 +88,7 @@ module.exports = {
                 importLoaders: 2,
                 camelCase: true,
                 modules: true,
+                minimize: true,
                 localIdentName: '[name]__[local]__[hash:base64:5]'
               }
             },

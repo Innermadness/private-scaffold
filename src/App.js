@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styles from './App.less';
 import Comp1 from './components/Comp1';
-import Comp2 from './components/Comp2';
+
+// import('./components/Comp1').then(data => {
+//   console.log(data);
+// });
 
 class App extends Component {
   componentDidMount() {
@@ -13,7 +16,6 @@ class App extends Component {
       <div className={styles.title}>
         Hello, world!
         <Comp1 />
-        <Comp2 />
       </div>
     );
   }

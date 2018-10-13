@@ -15,9 +15,6 @@ module.exports = merge(baseWebpackConfig, {
         }
       })
     ],
-    namedChunks: true,
-    splitChunks: {
-      chunks: 'all'
-    }
+    namedChunks: true
   }
 });
