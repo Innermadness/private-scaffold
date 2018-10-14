@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
 import axios from 'axios';
 import styles from './App.less';
 import Comp1 from './components/Comp1';
@@ -9,11 +10,11 @@ class App extends Component {
     this.state = {
       requestResult: ''
     };
+    console.log(process.env.NODE_ENV);
   }
 
   componentDidMount() {
     console.log('AppDidMount');
-    console.log('ready to request');
     axios.get('/mock/test.json').then(res => {
       console.log(res.data);
       if (res.data.code === 200) {
@@ -27,7 +28,7 @@ class App extends Component {
   render() {
     const { requestResult } = this.state;
     return (
-      <div className={styles.title}>
+      <div className={styles.camelTitle}>
         Hello, world!!!
         <Comp1 />
         <p>{requestResult}</p>
@@ -36,4 +37,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default hot(module)(App); // 对于react，HMR要使用特殊的包
