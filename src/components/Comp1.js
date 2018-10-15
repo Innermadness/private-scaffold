@@ -7,7 +7,7 @@ class Comp1 extends Component {
 
   render() {
     return (
-      <h2>这是Comp1~</h2>
+      <h2>这是Comp1~~~~</h2>
     );
   }
 }

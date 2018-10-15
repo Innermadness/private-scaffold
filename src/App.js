@@ -29,7 +29,7 @@ class App extends Component {
     const { requestResult } = this.state;
     return (
       <div className={styles.camelTitle}>
-        Hello, world!!!
+        Hello, world!
         <Comp1 />
         <p>{requestResult}</p>
       </div>
