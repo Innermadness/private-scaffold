@@ -7,7 +7,7 @@ class Comp1 extends Component {
 
   render() {
     return (
-      <h2>这也是个引用了React的组件</h2>
+      <h2>这是Comp1~~~~</h2>
     );
   }
 }
