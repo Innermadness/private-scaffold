@@ -1,6 +1,7 @@
 // webpack-merge 这里只是用了它来混合base的配置，还有更多的API
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.js');
+const { DIST_PATH } = require('./constants.js');
 
 module.exports = merge(baseWebpackConfig, {
   mode: 'development',
@@ -14,5 +15,9 @@ module.exports = merge(baseWebpackConfig, {
     port: 3000, // localhost端口号，默认8080
     clientLogLevel: 'error', // 屏蔽一些webpack打印的log信息，一般是start/reload页面完成前打印的，比如favicon。
     overlay: true // 构建错误会以浮层的形式遮盖在页面上
+  },
+  output: {
+    filename: 'static/js/[name].[hash:5].js',
+    path: DIST_PATH
   }
 });
