@@ -25,8 +25,16 @@ module.exports = {
     ]
   },
   optimization: {
+    // 开启代码分割，all会将所有公共依赖，各个异步引入的模块分别打包成额外的js（满足一定条件）。
+    // 公共依赖通常代码变动较少（版本更新才会有变动），会打包进vendor中。
+    // 浏览器访问线上页面时，这部分可以优先使用缓存。
     splitChunks: {
       chunks: 'all'
+    },
+    // 启用runtimeChunk，webpack还有一段关于模块执行的代码，同样变动较少
+    // 开启后将单独提出一份js，也有利于浏览器缓存。
+    runtimeChunk: {
+      name: 'runtime'
     }
   },
   module: {
@@ -51,7 +59,7 @@ module.exports = {
             test: /\.(js|jsx)$/,
             exclude: MODULES_PATH,
             include: SRC_PATH,
-            loader: require.resolve('babel-loader'),
+            loader: 'babel-loader?cacheDirectory=true', // 启用缓存，加速编译
             options: {
               presets: [
                 '@babel/preset-react',
@@ -77,7 +85,9 @@ module.exports = {
             use: [
               // 考虑到样式热更新问题，dev时不剥离css。
               {
-                loader: ENV === 'development' ? require.resolve('style-loader') : MiniCssExtractPlugin.loader
+                loader: ENV === 'development'
+                  ? require.resolve('style-loader')
+                  : MiniCssExtractPlugin.loader
               },
               {
                 loader: require.resolve('css-loader'),
@@ -143,7 +153,7 @@ module.exports = {
     })
   ],
   output: {
-    filename: 'static/js/bundle.js',
+    filename: 'static/js/[name].[chunkhash:5].js',
     path: DIST_PATH
   }
 };
