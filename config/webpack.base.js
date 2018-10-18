@@ -24,6 +24,8 @@ module.exports = {
       'node_modules'
     ]
   },
+  // dev时，千万不要optimization.minimize = true;
+  // 原本几百毫秒的更新，会变成几秒！
   optimization: {
     // 开启代码分割，all会将所有公共依赖，各个异步引入的模块分别打包成额外的js（满足一定条件）。
     // 公共依赖通常代码变动较少（版本更新才会有变动），会打包进vendor中。
@@ -75,8 +77,8 @@ module.exports = {
               ],
               plugins: [
                 '@babel/plugin-transform-runtime',
-                '@babel/plugin-syntax-dynamic-import'
-                // 'react-hot-loader/babel' // react专用的热更新包，但是reload效率有点低...
+                '@babel/plugin-syntax-dynamic-import',
+                'react-hot-loader/babel' // react专用的热更新包
               ]
             }
           },

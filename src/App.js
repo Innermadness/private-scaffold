@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { hot } from 'react-hot-loader';
+import { hot } from 'react-hot-loader';
 import axios from 'axios';
 import styles from './App.less';
 import Comp1 from './components/Comp1';
@@ -37,5 +37,4 @@ class App extends Component {
   }
 }
 
-// export default hot(module)(App); // 对于react，HMR要使用特殊的包
-export default App;
+export default hot(module)(App); // 对于react，HMR要使用特殊的包
