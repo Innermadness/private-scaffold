@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const baseWebpackConfig = require('./webpack.base.js');
+const { DIST_PATH } = require('./constants.js');
 
 module.exports = (_, options) => {
   const { report } = options;
@@ -34,6 +35,10 @@ module.exports = (_, options) => {
       ],
       namedChunks: true
     },
-    plugins
+    plugins,
+    output: {
+      filename: 'static/js/[name].[chunkhash:5].js',
+      path: DIST_PATH
+    }
   });
 };

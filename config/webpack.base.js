@@ -1,11 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Jarvis = require('webpack-jarvis');
 const {
   SRC_PATH,
   BROWSERS_LIST_MAP,
-  MODULES_PATH,
-  DIST_PATH
+  MODULES_PATH
 } = require('./constants.js');
 
 const ENV = process.env.NODE_ENV;
@@ -24,6 +24,8 @@ module.exports = {
       'node_modules'
     ]
   },
+  // dev时，千万不要optimization.minimize = true;
+  // 原本几百毫秒的更新，会变成几秒！
   optimization: {
     // 开启代码分割，all会将所有公共依赖，各个异步引入的模块分别打包成额外的js（满足一定条件）。
     // 公共依赖通常代码变动较少（版本更新才会有变动），会打包进vendor中。
@@ -76,7 +78,7 @@ module.exports = {
               plugins: [
                 '@babel/plugin-transform-runtime',
                 '@babel/plugin-syntax-dynamic-import',
-                'react-hot-loader/babel' // production下插件内部逻辑禁用，页面有引用，因此不能删除
+                'react-hot-loader/babel' // react专用的热更新包
               ]
             }
           },
@@ -150,10 +152,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './template.html'
+    }),
+    // webpack更友好酷炫的监控界面
+    new Jarvis({
+      port: 3001,
+      watchOnly: false
     })
-  ],
-  output: {
-    filename: 'static/js/[name].[chunkhash:5].js',
-    path: DIST_PATH
-  }
+  ]
 };
