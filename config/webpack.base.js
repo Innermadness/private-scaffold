@@ -1,7 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Jarvis = require('webpack-jarvis');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const {
   SRC_PATH,
   BROWSERS_LIST_MAP,
@@ -153,10 +154,7 @@ module.exports = {
       filename: 'index.html',
       template: './template.html'
     }),
-    // webpack更友好酷炫的监控界面
-    new Jarvis({
-      port: 3001,
-      watchOnly: false
-    })
+    new ProgressBarPlugin(),
+    new ManifestPlugin()
   ]
 };

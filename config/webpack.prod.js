@@ -8,37 +8,32 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const baseWebpackConfig = require('./webpack.base.js');
 const { DIST_PATH } = require('./constants.js');
 
-module.exports = (_, options) => {
-  const { report } = options;
-  const plugins = [
+module.exports = merge(baseWebpackConfig, {
+  mode: 'production',
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ],
+    namedChunks: true
+  },
+  plugins: [
     new MiniCssExtractPlugin({
       filename: 'static/styles/index.css'
     }),
-    new CleanWebpackPlugin(['../dist/*'], { allowExternal: true })
-  ];
-  if (report) {
-    plugins.push(new BundleAnalyzerPlugin());
+    new CleanWebpackPlugin(['../dist/*'], { allowExternal: true }),
+    new BundleAnalyzerPlugin()
+  ],
+  output: {
+    filename: 'static/js/[name].[chunkhash:5].js',
+    path: DIST_PATH
   }
-
-  return merge(baseWebpackConfig, {
-    mode: 'production',
-    optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            compress: {
-              drop_console: true
-            }
-          }
-        }),
-        new OptimizeCSSAssetsPlugin({})
-      ],
-      namedChunks: true
-    },
-    plugins,
-    output: {
-      filename: 'static/js/[name].[chunkhash:5].js',
-      path: DIST_PATH
-    }
-  });
-};
+});
