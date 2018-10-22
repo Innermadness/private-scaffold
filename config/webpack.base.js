@@ -3,6 +3,7 @@ const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const HappyPack = require('happypack');
 const {
   SRC_PATH,
   BROWSERS_LIST_MAP,
@@ -62,26 +63,28 @@ module.exports = {
             test: /\.(js|jsx)$/,
             exclude: MODULES_PATH,
             include: SRC_PATH,
-            loader: 'babel-loader?cacheDirectory=true', // 启用缓存，加速编译
-            options: {
-              presets: [
-                '@babel/preset-react',
-                [
-                  '@babel/preset-env',
-                  {
-                    targets: {
-                      browsers: BROWSERS_LIST_MAP[ENV]
-                    },
-                    modules: false
-                  }
-                ]
-              ],
-              plugins: [
-                '@babel/plugin-transform-runtime',
-                '@babel/plugin-syntax-dynamic-import',
-                'react-hot-loader/babel' // react专用的热更新包
-              ]
-            }
+            // loader: 'babel-loader?cacheDirectory=true', // 启用缓存，加速编译
+            loader: 'happypack/loader?id=js-multi-thread'
+            // options: {
+            //   cacheDirectory: true,
+            //   presets: [
+            //     '@babel/preset-react',
+            //     [
+            //       '@babel/preset-env',
+            //       {
+            //         targets: {
+            //           browsers: BROWSERS_LIST_MAP[ENV]
+            //         },
+            //         modules: false
+            //       }
+            //     ]
+            //   ],
+            //   plugins: [
+            //     '@babel/plugin-transform-runtime',
+            //     '@babel/plugin-syntax-dynamic-import',
+            //     'react-hot-loader/babel' // react专用的热更新包
+            //   ]
+            // }
           },
           {
             test: /\.(less|css)$/,
@@ -153,6 +156,35 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './template.html'
+    }),
+    // 项目还小的时候，开启happypack的固定成本反而会使得构建变慢
+    new HappyPack({
+      id: 'js-multi-thread',
+      loaders: [
+        {
+          loader: require.resolve('babel-loader'),
+          options: {
+            cacheDirectory: true,
+            presets: [
+              '@babel/preset-react',
+              [
+                '@babel/preset-env',
+                {
+                  targets: {
+                    browsers: BROWSERS_LIST_MAP[ENV]
+                  },
+                  modules: false
+                }
+              ]
+            ],
+            plugins: [
+              '@babel/plugin-transform-runtime',
+              '@babel/plugin-syntax-dynamic-import',
+              'react-hot-loader/babel' // react专用的热更新包
+            ]
+          }
+        }
+      ]
     }),
     new ProgressBarPlugin(),
     new ManifestPlugin()
