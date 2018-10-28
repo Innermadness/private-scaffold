@@ -1,19 +1,13 @@
 {
   "name": "private-scaffold",
-  "version": "1.0.0",
-  "description": "[try]webpack4建个react脚手架",
+  "version": "0.1.0",
+  "description": "",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
     "start": "cross-env NODE_ENV=development webpack-dev-server --open --bonjour --config config/webpack.dev.js",
     "watch": "webpack --watch --config config/webpack.dev.js",
     "lint": "eslint src --ext .js --cache"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:Innermadness/private-scaffold.git"
-  },
-  "author": "xu",
-  "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "axios": "^0.18.0",

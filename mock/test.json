@@ -1,7 +1,0 @@
-{
-  "code": 200,
-  "message": "请求成功",
-  "result": {
-    "content": "Hello world from mock~"
-  }
-}
